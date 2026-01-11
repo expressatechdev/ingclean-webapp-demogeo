@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <!-- Background -->
+  <rect width="512" height="512" rx="80" fill="#0077b6"/>
+  
+  <!-- House icon -->
+  <path d="M256 120 L380 220 L380 380 L132 380 L132 220 Z" fill="white" opacity="0.9"/>
+  <rect x="160" y="250" width="192" height="130" fill="#0077b6" opacity="0.3"/>
+  
+  <!-- Sparkle/Clean effect -->
+  <circle cx="320" cy="180" r="25" fill="#00b4d8"/>
+  <path d="M320 150 L320 210 M290 180 L350 180" stroke="white" stroke-width="8" stroke-linecap="round"/>
+  
+  <!-- Broom icon -->
+  <rect x="220" y="280" width="12" height="80" rx="3" fill="#1e3a5f"/>
+  <path d="M200 360 L252 360 L240 400 L212 400 Z" fill="#22c55e"/>
+  
+  <!-- Text ING -->
+  <text x="256" y="460" text-anchor="middle" font-family="Arial, sans-serif" font-weight="bold" font-size="60" fill="white">ING</text>
+</svg>

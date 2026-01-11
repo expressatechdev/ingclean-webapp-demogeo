@@ -1,0 +1,19 @@
+# Logs
+logs/
+*.log
+
+# Archivos de sistema
+.DS_Store
+Thumbs.db
+
+# Dependencias
+node_modules/
+vendor/
+
+# Archivos de configuración sensibles (opcional)
+# config/database.php
+
+# Archivos temporales
+*.tmp
+*.temp
+.cache/
