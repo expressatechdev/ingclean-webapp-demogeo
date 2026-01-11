@@ -215,3 +215,13 @@ function timeAgo($datetime) {
         return formatDate($datetime, 'd/m/Y');
     }
 }
+
+// Cargar FCMService para notificaciones push de la app
+if (file_exists(INCLUDES_PATH . 'FCMService.php')) {
+    require_once INCLUDES_PATH . 'FCMService.php';
+}
+
+// Cargar NotificationService para notificaciones
+if (file_exists(INCLUDES_PATH . 'NotificationService.php')) {
+    require_once INCLUDES_PATH . 'NotificationService.php';
+}

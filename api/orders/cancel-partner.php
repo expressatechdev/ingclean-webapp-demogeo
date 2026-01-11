@@ -2,6 +2,7 @@
 /**
  * INGClean API - Cancelar Orden (Partner)
  * El partner no recibe recompensa si cancela
+ * ACTUALIZADO: Incluye notificación push FCM al cliente
  */
 define('INGCLEAN_APP', true);
 require_once '../../includes/init.php';
@@ -31,7 +32,10 @@ try {
     
     // Obtener orden (solo el partner asignado puede cancelar)
     $order = $db->fetchOne(
-        "SELECT * FROM orders WHERE id = :id AND partner_id = :partner_id AND status IN ('paid', 'in_transit')",
+        "SELECT o.*, s.name as service_name, s.price 
+         FROM orders o 
+         JOIN services s ON o.service_id = s.id
+         WHERE o.id = :id AND o.partner_id = :partner_id AND o.status IN ('paid', 'in_transit')",
         ['id' => $orderId, 'partner_id' => $partnerId]
     );
     
@@ -52,7 +56,7 @@ try {
         ['id' => $orderId]
     );
     
-    // Notificar al cliente
+    // Notificar al cliente (en BD)
     $db->insert('notifications', [
         'user_type' => 'client',
         'user_id' => $order['client_id'],
@@ -61,6 +65,20 @@ try {
         'message' => 'El profesional ha cancelado el servicio. Contacta a finanzas@ingclean.com para la devolución de tu dinero.',
         'type' => 'order_cancelled'
     ]);
+    
+    // ========== ENVIAR PUSH NOTIFICATION FCM ==========
+    try {
+        require_once INCLUDES_PATH . 'NotificationService.php';
+        
+        $notificationService = new NotificationService();
+        $notificationService->notifyOrderCancelled($order, 'partner');
+        
+        appLog("Push enviado al cliente {$order['client_id']} - Partner canceló orden", 'info');
+        
+    } catch (Exception $e) {
+        appLog("Error enviando push de cancelación: " . $e->getMessage(), 'warning');
+    }
+    // ========== FIN PUSH NOTIFICATION ==========
     
     // Marcar el pago como pendiente de reembolso
     $db->update(
